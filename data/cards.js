@@ -69,8 +69,24 @@ const shuffle = deck => {
     return deck;
 };
 
+const sorter = values => {
+    if(values.length < 2) return values;
+
+    let pivot = values[0];
+    let left = [];
+    let right = [];
+
+    for(let i = 1; i < values.length; i++) {
+        if(values[i] < pivot) left.push(values[i]);
+        else right.push(values[i]);
+    }
+
+    return sorter(left).concat(pivot, sorter(right));
+};
+
 module.exports = {
     suits,
     symbols,
-    shuffle
+    shuffle,
+    sorter
 };
