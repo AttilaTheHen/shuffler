@@ -69,7 +69,7 @@ const shuffle = deck => {
     return deck;
 };
 
-const sorter = values => {
+const quick = values => {
     if(values.length < 2) return values;
 
     let pivot = values[0];
@@ -81,12 +81,60 @@ const sorter = values => {
         else right.push(values[i]);
     }
 
-    return sorter(left).concat(pivot, sorter(right));
+    return quick(left).concat(pivot, quick(right));
+};
+
+const bubble = values => {
+    let i = 0;
+
+    while(i < values.length - 1) {
+        let left = values[i];
+        let right = values[i + 1];
+
+        if(i < 0) i = 0;
+        if(left === right) i++;
+        if(left > right) {
+            values[i] = right;
+            values[i + 1] = left;
+            i--;
+        }
+        if(left < right) i++;
+    }
+    return values;
+};
+
+const split = arr => {
+    const middle = Math.floor(arr.length / 2);
+    const left = arr.slice(0, middle);
+    const right = arr.slice(middle);
+    return [left, right];
+};
+
+const merger = (left, right) => {
+    let merged = [];
+    let leftIndex = 0;
+    let rightIndex = 0;
+
+    while(leftIndex < left.length && rightIndex < right.length) {
+        if(left[leftIndex] < right[rightIndex]) {
+            merged.push(left[leftIndex]);
+            leftIndex++;
+        }
+        else {
+            merged.push(right[rightIndex]);
+            rightIndex++;
+        }
+    }
+
+    return merged;
 };
 
 module.exports = {
     suits,
     symbols,
     shuffle,
-    sorter
+    quick,
+    bubble,
+    split,
+    merger
 };
